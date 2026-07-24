@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Reverse Math 🔁
 
-## Getting Started
+لعبة رياضيات سريعة بتعتمد على الانتباه مش مستوى الرياضيات. اللاعب بيشوف معادلة زي `47 + 23`، وفوق كل رقم سهم: → يعني اقرأه عادي، ← يعني اقرأه معكوس (47 تبقى 74). لازم يحسب الناتج الصح بعد تطبيق الأسهم تحت ضغط وقت. عنده 3 محاولات غلط بس، وفي الآخر كارت نتيجة قابل للمشاركة. موقع مجاني بالكامل، مبني بـ Next.js عشان ينشر على Vercel مباشرة من غير أي تحميل تطبيق.
 
-First, run the development server:
+## إيه اللي اتعمل
+
+- **محرك اللعبة** (`lib/game.ts`): بيولّد معادلة عشوائية (جمع/طرح/ضرب/قسمة)، بيحدد اتجاه السهم لكل رقم، وبيحسب الناتج الصح بناءً على القيمة الفعلية بعد التعكيس. من ضمن الاختيارات الأربعة اللي بتتعرض، فيه واحد هو "فخ الانتباه" (الناتج اللي هيطلع لو اللاعب اتجاهل السهم تمامًا وحسب بالأرقام زي ما هي)، وده بيختبر بالظبط الانتباه مش مستوى الرياضيات.
+- **صعوبة متدرجة**: أول 3 أسئلة جمع/طرح بس ومؤقت 8 ثواني، وبعدين يدخل الضرب، وبعد السؤال التاسع يدخل القسمة والمؤقت يقصر تدريجيًا لحد 4.5 ثانية.
+- **نظام محاولات (Lives)**: 3 محاولات غلط بس (تشمل عدم الإجابة في الوقت)، وبعدها Game Over وتظهر شاشة النتيجة.
+- **شاشة النتيجة**: كارت مصمم (`components/ResultCard.tsx`) فيه السكور جاهز للتحميل كصورة أو المشاركة المباشرة (Web Share API على الموبايل، تحميل على الديسكتوب).
+- **إعلانات**: مساحة إعلان واحدة قبل بدء اللعبة وواحدة في شاشة النتيجة بس (مش أثناء اللعب نفسه عشان محدش يتشتت وسط الضغط الزمني) — نفس مكوّن Adsterra/PropellerAds من مشروع GetRoasted.
+
+## اللي اتأجل عمدًا (مش ناقص، قرار)
+
+- **Leaderboard**: الملف بيوصفها كعنصر إضافي اختياري ("لو هيتنفذ")، وبتحتاج Backend + قاعدة بيانات لتخزين السكورات، وده أكبر من نطاق النسخة الأولى اللي كل حاجة فيها Client-side زي ما الملف نص. لو عايزها قولّي وهضيفها (هتحتاج قاعدة بيانات بسيطة زي Vercel KV أو Supabase).
+
+## المفاتيح اللي لازم تجيبها إنت
+
+انسخ `.env.example` لملف `.env.local`:
+
+1. **حساب Adsterra / PropellerAds** — Zone ID للمكانين، حطهم في `NEXT_PUBLIC_ADSTERRA_ZONE_TOP` و `NEXT_PUBLIC_ADSTERRA_ZONE_BOTTOM`.
+2. **دومين حقيقي** (اختياري بس مهم للفيروسية).
+
+## تشغيل محلي
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+افتح [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## النشر على Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. ادفع الكود على GitHub.
+2. من [vercel.com/new](https://vercel.com/new) اربط الريبو.
+3. حط environment variables من `.env.example`.
+4. Deploy.

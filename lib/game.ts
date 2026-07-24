@@ -52,17 +52,19 @@ export type Difficulty = {
 };
 
 export function difficultyForRound(round: number): Difficulty {
-  if (round < 4) {
+  const tier = Math.floor((round - 1) / 10); // rounds 1-10 -> 0, 11-20 -> 1, 21-30 -> 2, ...
+
+  if (tier === 0) {
     return { operators: ["+", "-"], minNum: 10, maxNum: 40, timerMs: 8000 };
   }
-  if (round < 9) {
+  if (tier === 1) {
     return { operators: ["+", "-", "×"], minNum: 10, maxNum: 60, timerMs: 7000 };
   }
   return {
     operators: ["+", "-", "×", "÷"],
     minNum: 10,
     maxNum: 99,
-    timerMs: Math.max(4500, 7000 - (round - 9) * 200),
+    timerMs: Math.max(4000, 7000 - (tier - 1) * 500),
   };
 }
 
@@ -113,6 +115,14 @@ function buildChoices(correct: number, trapAnswer: number): number[] {
     .sort(() => Math.random() - 0.5);
 }
 
+export function titleForScore(score: number): string {
+  if (score >= 15) return "Certified Math Wizard 🏆";
+  if (score >= 10) return "You're a genius 🧠";
+  if (score >= 6) return "You're really smart 😎";
+  if (score >= 3) return "You're good 👍";
+  return "You need to work harder on your math 📚";
+}
+
 export function generateEquation(round: number): Equation {
   const diff = difficultyForRound(round);
   const operator = diff.operators[randInt(0, diff.operators.length - 1)];
@@ -131,5 +141,6 @@ export function generateEquation(round: number): Equation {
     operator,
     correctAnswer,
     choices: buildChoices(correctAnswer, trapAnswer),
+    timerMs: diff.timerMs,
   };
 }
