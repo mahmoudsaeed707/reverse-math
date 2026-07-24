@@ -7,11 +7,17 @@ import { useEffect, useRef } from "react";
  * Falls back to a labeled placeholder box when no zone id is configured,
  * so layout and spacing can be reviewed before real ad codes exist.
  */
+const SIZES: Record<"top" | "bottom", { width: number; height: number }> = {
+  top: { width: 728, height: 90 },
+  bottom: { width: 300, height: 250 },
+};
+
 export function AdSlot({ slot }: { slot: "top" | "bottom" }) {
   const zoneId =
     slot === "top"
       ? process.env.NEXT_PUBLIC_ADSTERRA_ZONE_TOP
       : process.env.NEXT_PUBLIC_ADSTERRA_ZONE_BOTTOM;
+  const { width, height } = SIZES[slot];
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -26,8 +32,8 @@ export function AdSlot({ slot }: { slot: "top" | "bottom" }) {
       atOptions = {
         key: '${zoneId}',
         format: 'iframe',
-        height: 90,
-        width: 728,
+        height: ${height},
+        width: ${width},
         params: {}
       };
     `;
@@ -38,11 +44,14 @@ export function AdSlot({ slot }: { slot: "top" | "bottom" }) {
 
     containerRef.current.appendChild(configScript);
     containerRef.current.appendChild(invokeScript);
-  }, [zoneId]);
+  }, [zoneId, width, height]);
 
   if (!zoneId) {
     return (
-      <div className="flex h-[90px] w-full max-w-[728px] mx-auto items-center justify-center rounded-lg border border-dashed border-white/20 text-xs text-white/40">
+      <div
+        className="mx-auto flex w-full items-center justify-center rounded-lg border border-dashed border-white/20 text-xs text-white/40"
+        style={{ height, maxWidth: width }}
+      >
         Ad space ({slot}) — set NEXT_PUBLIC_ADSTERRA_ZONE_{slot.toUpperCase()} to activate
       </div>
     );
