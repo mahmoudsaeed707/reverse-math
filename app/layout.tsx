@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Reverse Math — How fast can you flip your attention?",
   description: "A fast reflex math game: an arrow tells you to read a number backwards before you solve the equation.",
+  other: {
+    monetag: "a1af52c5120ae9cf8a478b76e61bd949",
+  },
 };
 
 export default function RootLayout({
