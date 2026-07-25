@@ -214,7 +214,7 @@ export default function Home() {
               onClick={download}
               className="rounded-xl border border-neutral-300 py-3 font-semibold dark:border-neutral-700"
             >
-              Download
+              Save Image
             </button>
             <button
               onClick={share}

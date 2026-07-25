@@ -123,6 +123,14 @@ export function titleForScore(score: number): string {
   return "You need to work harder on your math 📚";
 }
 
+export function taglineForScore(score: number): string {
+  if (score >= 15) return "Lightning brain ⚡";
+  if (score >= 10) return "Genius-level reflexes 🧠";
+  if (score >= 6) return "Razor-sharp focus 🔪";
+  if (score >= 3) return "Solid reflexes 💪";
+  return "Warming up those neurons 🌱";
+}
+
 export function generateEquation(round: number): Equation {
   const diff = difficultyForRound(round);
   const operator = diff.operators[randInt(0, diff.operators.length - 1)];

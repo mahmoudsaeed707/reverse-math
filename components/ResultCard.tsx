@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { titleForScore } from "@/lib/game";
+import { taglineForScore, titleForScore } from "@/lib/game";
 
 export const ResultCard = forwardRef<HTMLDivElement, { score: number; bestRound: number }>(
   function ResultCard({ score, bestRound }, ref) {
@@ -25,12 +25,13 @@ export const ResultCard = forwardRef<HTMLDivElement, { score: number; bestRound:
           <span className="mt-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-bold text-white">
             {titleForScore(score)}
           </span>
+          <span className="text-sm font-semibold text-white/80">{taglineForScore(score)}</span>
           <p className="mt-4 text-base font-bold text-white/90">
-            I scored {score} on Reverse Math — bet you can&apos;t beat me 👀
+            {`I scored ${score} on Reverse Math — bet you can't beat me 👀`}
           </p>
         </div>
 
-        <span className="relative text-sm font-bold tracking-tight text-white/90">ReverseMath.io</span>
+        <span className="relative text-sm font-bold tracking-tight text-white/90">ReverseMath.org</span>
       </div>
     );
   },
