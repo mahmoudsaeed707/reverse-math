@@ -97,7 +97,7 @@ export default function Home() {
         await navigator.share({
           files: [file],
           title: "Reverse Math",
-          text: `I scored ${score} on Reverse Math — bet you can't beat me 👀`,
+          text: `I scored ${score} on Reverse Math — bet you can't beat me 👀\nhttps://reversemath.org`,
         });
         return;
       }
